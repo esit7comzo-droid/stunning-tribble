@@ -1,18 +1,22 @@
-name: Build Separated EXEs
+name: OS Build Action
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4  # 최신 버전으로 업데이트
+
       - name: Install MinGW
         run: sudo apt-get install -y mingw-w64
-      - name: Build Both EXEs
+
+      - name: Compile
         run: |
           x86_64-w64-mingw32-gcc virtual_os.c -o virtual_os.exe
           x86_64-w64-mingw32-gcc tools_bang.c -o tools_bang.exe
-      - name: Archive Production Artifacts
-        uses: actions/upload-artifact@v3
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4  # v3에서 v4로 변경 (필수)
         with:
           name: Bang-OS-Release
           path: |
